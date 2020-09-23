@@ -3,8 +3,7 @@ import React from 'react';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
-import {signInWithGoogle} from '../../firebase/firebase.utils';
-import { auth } from 'firebase';
+import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -22,7 +21,7 @@ class SignIn extends React.Component {
     const { email, password } = this.state;
 
     try{
-      await auth.singInWithEmailAndPassword(email, password);
+      await auth.signInWithEmailAndPassword(email, password);
       this.setState({email: '', password:''});
     }catch (error){
       console.log(error);
