@@ -23,9 +23,9 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
       collectionRef returns a querySnapshop object 
 
   */
-  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  const userRef = firestore.doc(`users/${userAuth.uid}`)
   //const collectionRef = firestore.collection('users');
-  
+
   const snapShot = await userRef.get();
   //const colletionSnapshot = await collectionRef.get();
   //console.log({ collection: colletionSnapshot.docs.map(doc => doc.data()) });
@@ -48,9 +48,12 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
-export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+export const addCollectionAndDocuments = async (
+    collectionKey, 
+    objectsToAdd
+  ) => {
   const collectionRef = firestore.collection(collectionKey);
-  console.log(collectionRef)
+  //console.log(collectionRef)
 
   /* .batch return map */
   const batch = firestore.batch();
@@ -62,11 +65,11 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
   return await batch.commit();
 };
 
-export const convertCollectionsSnapshotToMap = (collections) => {
-  const transformedCollections = collections.docs.map( doc => {
-    const {title, items} = doc.data();
+export const convertCollectionsSnapshotToMap = collections => {
+  const transformedCollection = collections.docs.map(doc => {
+    const { title, items } = doc.data();
 
-    return{
+    return {
       routeName: encodeURI(title.toLowerCase()),
       id: doc.id,
       title,
@@ -74,20 +77,27 @@ export const convertCollectionsSnapshotToMap = (collections) => {
     };
   });
 
-  //console.log(transformedCollections);
-
-  return transformedCollections.reduce((accumulator, collection) => {
+  return transformedCollection.reduce((accumulator, collection) => {
     accumulator[collection.title.toLowerCase()] = collection;
     return accumulator;
   }, {});
-  
 };
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
+};
+
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const  googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 export default firebase;
