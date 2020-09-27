@@ -23,7 +23,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
       collectionRef returns a querySnapshop object 
 
   */
-  const userRef = firestore.doc(`users/${userAuth.uid}`)
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
   //const collectionRef = firestore.collection('users');
 
   const snapShot = await userRef.get();
@@ -91,7 +91,6 @@ export const getCurrentUser = () => {
     }, reject);
   });
 };
-
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
