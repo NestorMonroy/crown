@@ -27,8 +27,7 @@ export function* getSnapshotFromUserAuth(userAuth, additionalData) {
     } catch (e) {
       yield put(signInFailure(e));
     }
-  }
-
+}
 
 export function* signInWithGoogle(){
     try {
@@ -46,7 +45,7 @@ export function* signInWithEmail({ payload: { email, password } }) {
     } catch (e) {
         yield put(signInFailure(e))
     }
-  }
+}
   
 export function* isUserAuthenticated() {
   try {
@@ -58,7 +57,6 @@ export function* isUserAuthenticated() {
   }
 }
 
-
 export function* signOut() {
     try {
       yield auth.signOut();
@@ -67,7 +65,6 @@ export function* signOut() {
       yield put(signOutFailure(error));
     }
 }
-
 
 export function* onGoogleSignInStart() {
     yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle)
@@ -79,13 +76,11 @@ export function* onEmailSignInStart() {
 
 export function* onCheckUserSession() {
     yield takeLatest(UserActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
-  }
-
+}
 
 export function* onSignOutStart() {
   yield takeLatest(UserActionTypes.SIGN_OUT_START, signOut);
 }
-
 
 export function* userSagas(){
  yield all([
